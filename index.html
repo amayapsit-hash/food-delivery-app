@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodie Express</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Foodie Express</h1>
+        <p>Delicious food delivered to your doorstep!</p>
+    </header>
+
+    <main>
+        <h2>Popular Menu</h2>
+
+        <div class="menu">
+            <div class="food-card">
+                <h3>Margherita Pizza</h3>
+                <p>Classic cheese pizza</p>
+                <p>₹199</p>
+                <button onclick="addToCart('Margherita Pizza', 199)">
+                    Add to Cart
+                </button>
+            </div>
+
+            <div class="food-card">
+                <h3>Veg Burger</h3>
+                <p>Crispy vegetable burger</p>
+                <p>₹99</p>
+                <button onclick="addToCart('Veg Burger', 99)">
+                    Add to Cart
+                </button>
+            </div>
+
+            <div class="food-card">
+                <h3>White Sauce Pasta</h3>
+                <p>Creamy white sauce pasta</p>
+                <p>₹149</p>
+                <button onclick="addToCart('White Sauce Pasta', 149)">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+
+        <section class="cart">
+            <h2>Your Cart</h2>
+            <ul id="cart-items"></ul>
+            <h3>Total: ₹<span id="total">0</span></h3>
+        </section>
+    </main>
+
+    <footer>
+        <p>Foodie Express | Fresh Food, Fast Delivery</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
