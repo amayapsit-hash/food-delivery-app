@@ -1,0 +1,81 @@
+
+name: Food Delivery CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify application files
+        run: |
+          test -f index.html
+          test -f style.css
+          test -f script.js
+
+      - name: Validate HTML references
+        run: |
+          grep -q 'style.css' index.html
+          grep -q 'script.js' index.html
+
+      - name: Package website
+        run: |
+          mkdir -p dist
+          cp index.html style.css script.js dist/
+          test -f dist/index.html
+          test -f dist/style.css
+          test -f dist/script.js
+
+      - name: Upload website artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: food-delivery-website
+          path: dist/
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.event_name != 'pull_request'
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Download website artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: food-delivery-website
+          path: dist/
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/
+
+      - name: Deploy website
+        id: deployment
+        uses: actions/deploy-pages@v4
